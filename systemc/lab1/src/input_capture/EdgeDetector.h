@@ -3,12 +3,13 @@
 #include <systemc.h>
 
 SC_MODULE(EdgeDetector) {
-    enum ed_icm_conf {
-        any,
-        pos,
-        neg
+    enum ed_icm_mode {
+        Any,
+        Pos,
+        Neg
     };
 
+    sc_in<bool>         clk_i;
     sc_in<sc_uint<3>>   icm_i;
     sc_in<bool>         ins_i;
     sc_out<bool>        ins_o;
@@ -19,8 +20,8 @@ SC_MODULE(EdgeDetector) {
     ~EdgeDetector() = default;
 
     private:
-    bool reg_ins_o;
+    bool reg_prev_ins;
 
-    void on_ins_changed();
-    ed_icm_conf get_conf();
+    void on_clk();
+    ed_icm_mode get_mode();
 };

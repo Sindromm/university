@@ -1,19 +1,21 @@
-cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8)
 
-project(systemc_example)
+project(lab1)
 
-add_executable(systemc_example
-        src/input_capture/icconf.cpp
-        src/input_capture/bus_control.cpp
-        src/input_capture/prescaler.cpp
-        src/input_capture/edge_detector.cpp
-        src/input_capture/timers_control.cpp
-        src/input_capture/fifo.cpp
-        src/input_capture.cpp
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+add_executable(lab1
+        src/input_capture/ICCONF.cpp
+        src/input_capture/Prescaler.cpp
+        src/input_capture/EdgeDetector.cpp
+        src/input_capture/TimersControl.cpp
+        src/input_capture/FIFO.cpp
+        src/InputCapture.cpp
+        src/BusMatrix.cpp
         src/main.cpp
-        src/mem.cpp
         src/mips32.cpp
-        src/timer.cpp
+        src/Timer.cpp
+        src/Signal.cpp
         )
 
 add_library(systemc SHARED IMPORTED)
@@ -23,10 +25,10 @@ set_target_properties(systemc PROPERTIES
         INTERFACE_INCLUDE_DIRECTORIES "/Users/dmaituganov/Documents/labs/systemc/systemc-2.3.1a/include"
         )
 
-set_target_properties(systemc_example PROPERTIES
+set_target_properties(lab1 PROPERTIES
         ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
         RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
         )
 
-target_link_libraries(systemc_example m systemc)
+target_link_libraries(lab1 m systemc)

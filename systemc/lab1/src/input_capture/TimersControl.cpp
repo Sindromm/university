@@ -1,5 +1,5 @@
-#include "timers_control.h"
-#include "fifo.h"
+#include "TimersControl.h"
+#include "ICCONF.h"
 
 TimersControl::TimersControl(sc_module_name nm)
         :sc_module(nm),
@@ -16,7 +16,7 @@ TimersControl::TimersControl(sc_module_name nm)
 
 void TimersControl::on_change() {
     switch (ictmr_i.read()) {
-        case FIFO::second: {
+        case ICCONF::ICTimersSecond: {
             tval_o.write(timer2_i.read());
             break;
         }
