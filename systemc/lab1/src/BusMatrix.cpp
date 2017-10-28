@@ -22,20 +22,23 @@ BusMatrix::BusMatrix(sc_module_name nm)
 {
     data_bo.initialize(0);
 
-    for (size_t i = 0; i < NUMBER_OF_SLAVES; i++) {
-        slaves_rd_o[i]->write(0);
-        slaves_wr_o[i]->write(0);
-    }
+    //for (size_t i = 0; i < NUMBER_OF_SLAVES; i++) {
+        //slaves_rd_o[i]->write(0);
+        //slaves_wr_o[i]->write(0);
+    //}
 
-    slaves_data_bi.emplace_back(timer1_data_bi);
-    slaves_data_bi.emplace_back(timer2_data_bi);
-    slaves_data_bi.emplace_back(input_capture_data_bi);
-    slaves_rd_o.emplace_back(timer1_rd_o);
-    slaves_data_bi.emplace_back(timer2_rd_o);
-    slaves_data_bi.emplace_back(input_capture_rd_o);
-    slaves_wr_o.emplace_back(timer1_wr_o);
-    slaves_data_bi.emplace_back(timer2_wr_o);
-    slaves_data_bi.emplace_back(input_capture_wr_o);
+	slaves_data_bi.emplace_back(timer1_data_bi);
+	slaves_data_bi.emplace_back(timer2_data_bi);
+	slaves_data_bi.emplace_back(input_capture_data_bi);
+
+	slaves_rd_o.emplace_back(timer1_rd_o);
+	//slaves_data_bi.emplace_back(timer2_rd_o);
+	//slaves_data_bi.emplace_back(input_capture_rd_o);
+	slaves_wr_o.emplace_back(timer1_wr_o);
+
+
+	//slaves_data_bi.emplace_back(timer2_wr_o);
+    //slaves_data_bi.emplace_back(input_capture_wr_o);
 
     SC_METHOD(on_change);
     sensitive << rd_i.value_changed() << wr_i.value_changed();
@@ -69,7 +72,7 @@ void BusMatrix::on_change() {
 void BusMatrix::read() {
     for (size_t i = 0; i < NUMBER_OF_SLAVES; i++) {
         if (reg_timer_rd_flag[i]) {
-            data_bo.write(slaves_data_bi[i]->read());
+            data_bo.write(slaves_data_bi[i].get().read());
         }
     }
 }
@@ -80,6 +83,6 @@ void BusMatrix::send(size_t slave_i) {
     } else {
         reg_timer_rd_flag[slave_i] = false;
     }
-    slaves_rd_o[slave_i]->write(rd_i.read());
-    slaves_wr_o[slave_i]->write(wr_i.read());
+    slaves_rd_o[slave_i].get().write(rd_i.read());
+    slaves_wr_o[slave_i].get().write(wr_i.read());
 }
