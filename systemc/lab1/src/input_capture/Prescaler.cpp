@@ -23,7 +23,8 @@ void Prescaler::on_clk() {
     if (temp_counter_threshold == 0 || reg_counter >= temp_counter_threshold) {
         ins_o.write(0);
         reg_counter = 0;
-    } else if (temp_ins) {
+    }
+    if (temp_ins && reg_counter < temp_counter_threshold) {
         ins_o.write(1);
         reg_counter++;
     }

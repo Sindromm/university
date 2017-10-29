@@ -21,7 +21,7 @@ MIPS32::MIPS32(sc_module_name nm)
     rd_o.initialize(0);
 
     mips_state = 0;
-    ic_state = 0;
+    mips_inner_state = 0;
 
     SC_CTHREAD(mainThread, clk_i.pos());
     
@@ -29,7 +29,7 @@ MIPS32::MIPS32(sc_module_name nm)
 
 void MIPS32::mainThread() {
     const sc_uint<32> ic_wait_for_pos_conf = ICCONF::build_conf(ICCONF::ICStoreAtPos, ICCONF::ICTimersFirst);
-    const sc_uint<32> ic_wait_for_neg_conf = ICCONF::build_conf(ICCONF::ICStoreAtNeg, ICCONF::ICTimersFirst);
+    const sc_uint<32> ic_wait_for_any_conf = ICCONF::build_conf(ICCONF::ICStoreAtAny, ICCONF::ICTimersFirst);
 
     sc_uint<32> pos_time = 0;
     sc_uint<32> neg_time = 0;
@@ -44,25 +44,29 @@ void MIPS32::mainThread() {
             }
             case 1: { // configure wait for pos
                 bus_write(FIFO::ICCONF, ic_wait_for_pos_conf);
-                ic_state = 0;
                 mips_state = 3;
+                mips_inner_state = 0;
                 break;
             }
-            case 2: { // configure wait for neg
-                bus_write(FIFO::ICCONF, ic_wait_for_neg_conf);
-                ic_state = 1;
-                mips_state = 3;
+            case 2: { // configure wait for any
+                bus_write(FIFO::ICCONF, ic_wait_for_any_conf);
+                mips_state = 4;
+                mips_inner_state = 1;
                 break;
             }
             case 3: { // wait for NOT EMPTY
                 auto icconf = bus_read(FIFO::ICCONF);
                 if (ICCONF::get_icbne(icconf) == ICCONF::FIFONotEmpty) {
-                    switch (ic_state) {
+                    switch (mips_inner_state) {
                         case 0: {
-                            mips_state = 4;
+                            mips_state = 2;
                             break;
                         }
                         case 1: {
+                            mips_state = 4;
+                            break;
+                        }
+                        case 2: {
                             mips_state = 5;
                             break;
                         }
@@ -77,7 +81,8 @@ void MIPS32::mainThread() {
             }
             case 4: { // read posedge time
                 pos_time = bus_read(FIFO::ICBUF);
-                mips_state = 2;
+                mips_inner_state = 2;
+                mips_state = 3;
                 break;
             }
             case 5: { // calculate duration
@@ -88,7 +93,8 @@ void MIPS32::mainThread() {
                 } else {
                     cout << "duration: " << duration << "\n";
                 }
-                mips_state = 1;
+                mips_inner_state = 1;
+                mips_state = 3;
                 break;
             }
         }

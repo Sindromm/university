@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 
 project(lab1)
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++ -I /usr/lib/c++/v1/ -L /usr/lib/c++/v1/ ")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++ ")
 
 add_executable(lab1
         src/input_capture/ICCONF.cpp

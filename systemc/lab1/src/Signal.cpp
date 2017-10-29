@@ -11,10 +11,10 @@ Signal::Signal(sc_module_name nm)
 
 void Signal::run() {
     wait(100, SC_NS);
-    for (int i = 110; i < 6666; i += 10) {
+    for (int i = 80; i < 666; i += 10) {
         data_o.write(1);
         wait(i, SC_NS);
         data_o.write(0);
-        wait(110, SC_NS);
+        wait(10, SC_NS);
     }
 }

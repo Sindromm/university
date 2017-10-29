@@ -22,5 +22,5 @@ private:
     sc_uint<32> bus_read(sc_uint<32> addr);
 
     sc_uint<4>  mips_state;
-    bool        ic_state;
+    sc_uint<2>  mips_inner_state;
 };

@@ -33,12 +33,9 @@ private:
 	using ScInRef = std::reference_wrapper<sc_in<sc_uint<32>>>;
 	using ScOutRef = std::reference_wrapper<sc_out<bool>>;
     void on_change();
-    void read();
     void send(size_t slave_i);
 
     std::vector<ScInRef>  slaves_data_bi;
     std::vector<ScOutRef> slaves_rd_o;
     std::vector<ScOutRef> slaves_wr_o;
-
-    bool reg_timer_rd_flag[3];
 };
