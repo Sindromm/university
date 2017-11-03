@@ -91,7 +91,7 @@ void MIPS32::mainThread() {
                 if (neg_time < pos_time) {
                     cout << "timer is overflow\n";
                 } else {
-                    cout << "duration: " << duration << "\n";
+                    cout << "time: " << sc_time_stamp() << ", duration: " << duration << "\n";
                 }
                 mips_inner_state = 1;
                 mips_state = 3;

@@ -96,28 +96,30 @@ int sc_main(int argc, char* argv[]) {
     sc_trace(wf, wr, "wr");
     sc_trace(wf, rd, "rd");
 
-    sc_trace(wf, input_capture.icconf_icconf_fifo, "ic.icconf_icconf_fifo");
-    sc_trace(wf, input_capture.icm_from_icconf, "ic.icm_from_icconf");
-    sc_trace(wf, input_capture.ictmr_from_icconf, "ic.ictmr_from_icconf");
-    sc_trace(wf, input_capture.icconf_fifo_icconf, "ic.icconf_fifo_icconf");
+//    sc_trace(wf, input_capture.icconf_icconf_fifo, "ic.icconf_icconf_fifo");
+//    sc_trace(wf, input_capture.icm_from_icconf, "ic.icm_from_icconf");
+//    sc_trace(wf, input_capture.ictmr_from_icconf, "ic.ictmr_from_icconf");
+//    sc_trace(wf, input_capture.icconf_fifo_icconf, "ic.icconf_fifo_icconf");
+//    sc_trace(wf, input_capture.icov_fifo_icconf, "ic.icov_fifo_icconf");
+//    sc_trace(wf, input_capture.icbne_fifo_icconf, "ic.icbne_fifo_icconf");
     sc_trace(wf, input_capture.ins_ed_prescaler, "ic.ins_ed_prescaler");
     sc_trace(wf, input_capture.ins_prescaler_fifo, "ic.ins_prescaler_fifo");
-    sc_trace(wf, input_capture.tval_tc_fifo, "ic.tval_tc_fifo");
-    sc_trace(wf, input_capture.icbne_fifo_icconf, "ic.icbne_fifo_icconf");
-    sc_trace(wf, input_capture.icov_fifo_icconf, "ic.icov_fifo_icconf");
+//    sc_trace(wf, input_capture.tval_tc_fifo, "ic.tval_tc_fifo");
+//    sc_trace(wf, input_capture.icbne_fifo_icconf, "ic.icbne_fifo_icconf");
+//    sc_trace(wf, input_capture.icov_fifo_icconf, "ic.icov_fifo_icconf");
 
-//    sc_trace(wf, data_timer1_bm, "data_timer1_bm");
-//    sc_trace(wf, rd_bm_timer1, "rd_bm_timer1");
-//    sc_trace(wf, wr_bm_timer1, "wr_bm_timer1");
-//    sc_trace(wf, data_timer2_bm, "data_timer2_bm");
-//    sc_trace(wf, rd_bm_timer2, "rd_bm_timer2");
-//    sc_trace(wf, wr_bm_timer2, "wr_bm_timer2");
-//    sc_trace(wf, data_ic_bm, "data_ic_bm");
-//    sc_trace(wf, rd_bm_ic, "rd_bm_ic");
-//    sc_trace(wf, wr_bm_ic, "wr_bm_ic");
-//
-//    sc_trace(wf, tval_timer1_ic, "tval1_out");
-//    sc_trace(wf, tval_timer2_ic, "tval2_out");
+    sc_trace(wf, data_timer1_bm, "data_timer1_bm");
+    sc_trace(wf, rd_bm_timer1, "rd_bm_timer1");
+    sc_trace(wf, wr_bm_timer1, "wr_bm_timer1");
+    sc_trace(wf, data_timer2_bm, "data_timer2_bm");
+    sc_trace(wf, rd_bm_timer2, "rd_bm_timer2");
+    sc_trace(wf, wr_bm_timer2, "wr_bm_timer2");
+    sc_trace(wf, data_ic_bm, "data_ic_bm");
+    sc_trace(wf, rd_bm_ic, "rd_bm_ic");
+    sc_trace(wf, wr_bm_ic, "wr_bm_ic");
+
+    sc_trace(wf, tval_timer1_ic, "tval1_out");
+    sc_trace(wf, tval_timer2_ic, "tval2_out");
 
     sc_trace(wf, signal, "signal");
 
