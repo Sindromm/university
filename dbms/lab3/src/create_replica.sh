@@ -16,6 +16,4 @@ for i in $(find "$ORADATA" -name "*.dbf"); do
 	cp "$i" "$(echo $i | sed 's/bcu71/replica/')"
 done
 
-cp "$ORADATA/logs/"* "$REP_ORADATA/logs"
-
-sqlplus / as sysdba @dump_log.sql
+./do_replica.sh
