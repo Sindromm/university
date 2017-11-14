@@ -1,0 +1,5 @@
+lab*/Makefile
+lab*/.idea/*
+lab*/cmake-build-debug/*
+lab*/model*
+lab*/*.vcd
