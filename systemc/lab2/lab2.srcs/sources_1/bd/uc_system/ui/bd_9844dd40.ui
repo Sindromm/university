@@ -1,0 +1,42 @@
+{
+   guistr: "# # String gsaved with Nlview 6.6.8  2016-12-21 bk=1.3817 VDI=40 GEI=35 GUI=JA:1.6
+#  -string -flagsOSRD
+preplace port capturetrig0 -pg 1 -y 150 -defaultsOSRD
+preplace port reset_rtl -pg 1 -y 60 -defaultsOSRD
+preplace port gpio_rtl -pg 1 -y 840 -defaultsOSRD
+preplace port pwm0 -pg 1 -y 690 -defaultsOSRD
+preplace port generateout0 -pg 1 -y 650 -defaultsOSRD
+preplace port clock_rtl -pg 1 -y 80 -defaultsOSRD
+preplace inst clk_wiz -pg 1 -lvl 1 -y 70 -defaultsOSRD
+preplace inst microblaze_core -pg 1 -lvl 1 -y 410 -defaultsOSRD
+preplace inst axi_interconnect -pg 1 -lvl 1 -y 640 -defaultsOSRD
+preplace inst local_memory -pg 1 -lvl 2 -y 420 -defaultsOSRD
+preplace inst axi_timer -pg 1 -lvl 2 -y 680 -defaultsOSRD
+preplace inst axi_gpio -pg 1 -lvl 2 -y 840 -defaultsOSRD
+preplace inst proc_sys_reset -pg 1 -lvl 1 -y 240 -defaultsOSRD
+preplace netloc clk_wiz_0_locked 1 0 2 60 10 560
+preplace netloc microblaze_0_Clk 1 0 2 40 130 590
+preplace netloc axi_timer_0_pwm0 1 2 4 N 690 NJ 690 NJ 690 NJ
+preplace netloc capturetrig0_1 1 0 2 20J 490 580J
+preplace netloc proc_sys_reset_0_bus_struct_reset 1 1 1 600
+preplace netloc proc_sys_reset_0_mb_reset 1 0 2 70 150 560
+preplace netloc microblaze_0_axi_periph_M00_AXI 1 1 1 N
+preplace netloc microblaze_0_M_AXI_DP 1 0 2 80 330 560
+preplace netloc microblaze_0_ilmb_1 1 1 1 N
+preplace netloc axi_timer_0_generateout0 1 2 4 N 650 NJ 650 NJ 650 NJ
+preplace netloc proc_sys_reset_0_interconnect_aresetn 1 0 2 50 140 570
+preplace netloc microblaze_0_axi_periph_M01_AXI 1 1 1 560
+preplace netloc axi_gpio_0_GPIO 1 2 4 NJ 840 NJ 840 NJ 840 N
+preplace netloc proc_sys_reset_0_peripheral_aresetn 1 0 2 70 500 570
+preplace netloc microblaze_0_dlmb_1 1 1 1 N
+preplace netloc clock_rtl_1 1 0 1 NJ
+preplace netloc reset_rtl_1 1 0 1 30
+levelinfo -pg 1 0 320 720 870 920 970 1010 -top 0 -bot 910
+",
+}
+{
+   da_axi4_cnt: "4",
+   da_board_cnt: "8",
+   da_clkrst_cnt: "2",
+   da_mb_cnt: "1",
+}
