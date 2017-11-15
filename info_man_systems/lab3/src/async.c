@@ -1,6 +1,6 @@
 #include "aduc812.h"
 
-#define FIFOSize 16
+#define FIFOSize 32
 
 void SetVector(unsigned char xdata *Address, void *Vector);
 void SIO_ISR(void) __interrupt(4);
@@ -88,14 +88,15 @@ unsigned char PopFIFO(struct FIFOb *a) {
 void SIO_ISR(void) __interrupt(4) {
 	unsigned char c;
 	if (TI) {
+		TI = 0;
 		c = PopFIFO(&wFIFO);
 		TRANSFER_NOW = 1;
 		if (c) { //если буфер непуст
 			SBUF = c;
-			TI = 0;
-		} else
+		} else {
 			TRANSFER_NOW =
 			    0; //завершаем цикл передачи - больше нечего передавать
+		}
 	}
 
 	if (RI) {

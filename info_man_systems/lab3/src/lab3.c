@@ -16,65 +16,6 @@ bit IsDigit(unsigned char symb) {
 	}
 }
 
-//Преобразует символ русского алфавита в верхний регистр
-//Вход: символ для преобразования
-//Выход: нет
-unsigned char RussianToUpper(unsigned char symb) {
-	if ((symb >= 160) && (symb <= 175)) {
-		symb -= 32;
-	} else if ((symb >= 224) && (symb <= 239)) {
-		symb -= 80;
-	}
-	return symb;
-}
-
-//Преобразует символ русского алфавита в нижний регистр
-//Вход: символ для преобразования
-//Выход: нет
-unsigned char RussianToLower(unsigned char symb) {
-	if ((symb >= 128) && (symb <= 143)) {
-		symb += 32;
-	} else if ((symb >= 144) && (symb <= 159)) {
-		symb += 80;
-	}
-	return symb;
-}
-
-//Определяет, является ли символ русской буквой в верхнем регистре
-//Вход: проверяемый символ
-//Выход: 0 - не является
-//		1 - является
-bit IsRussianBig(unsigned char symb) {
-	if ((symb >= 128) && (symb <= 159)) {
-		return 1;
-	} else {
-		return 0;
-	}
-}
-
-//Определяет, является ли символ русской буквой в нижнем регистре
-//Вход: проверяемый символ
-//Выход: 0 - не является
-//		1 - является
-bit IsRussianSmall(unsigned char symb) {
-	if (((symb >= 160) && (symb <= 175)) || ((symb >= 224) && (symb <= 239))) {
-		return 1;
-	} else {
-		return 0;
-	}
-}
-
-//Определяет является ли символ буквой латинского алфавита
-//Вход: проверяемый символ
-//Выход: 0 - не является
-//		1 - является
-bit IsEnglish(unsigned char symb) {
-	if (((symb >= 65) && (symb <= 90)) || ((symb >= 97) && (symb <= 122))) {
-		return 1;
-	} else {
-		return 0;
-	}
-}
 
 #define ERR_OUT_OF_RANGE "\n\rnumber not 0-99\n\r\0"
 #define ERR_INVALID_CHAR "\n\rinvalid operator\n\r\0"
@@ -124,13 +65,12 @@ signed char ReadNumber(signed char *num, signed char operator) {
 void ResultOutput(unsigned char res) {
 	unsigned char rr[4], c;
 	char i = 0;
-	// bit isNegative = 0;
-	// if ((res & 0x80) == 0x80)
-	//{
-	//	isNegative = 1;
-	//	res = ~res;
-	//	res += 1;
-	//}
+	bit isNegative = 0;
+	if ((res & 0x80) == 0x80) {
+		isNegative = 1;
+		res = ~res;
+		res += 1;
+	}
 
 	for (i = 0; i < 3; i++) {
 		c = res % 10;
@@ -140,11 +80,10 @@ void ResultOutput(unsigned char res) {
 		if (res == 0)
 			break;
 	}
-	// if (isNegative)
-	//{
-	//	i++;
-	//	rr[i] = '-';
-	//}
+	if (isNegative) {
+		i++;
+		rr[i] = '-';
+	}
 	for (; i >= 0; i--)
 		WriteUART(rr[i]);
 }
@@ -161,11 +100,11 @@ void Calc(void) {
 		// if(last_operation ==
 		// READ_OUT_OF_RANGE_ERROR){APIString(ERR_OUT_OF_RANGE); return;}
 		if (last_operation == READ_INVALID_CHAR_ERROR) {
-			SendString(ERR_INVALID_CHAR);
+			APIString(ERR_INVALID_CHAR);
 			return;
 		}
 		if (last_operation == READ_OUT_OF_RANGE_ERROR) {
-			SendString(ERR_OUT_OF_RANGE);
+			APIString(ERR_OUT_OF_RANGE);
 			return;
 		}
 	}
@@ -179,11 +118,11 @@ void Calc(void) {
 		// if(last_operation ==
 		// READ_OUT_OF_RANGE_ERROR){APIString(ERR_OUT_OF_RANGE); return;}
 		if (last_operation == READ_INVALID_CHAR_ERROR) {
-			SendString(ERR_INVALID_CHAR);
+			APIString(ERR_INVALID_CHAR);
 			return;
 		}
 		if (last_operation == READ_OUT_OF_RANGE_ERROR) {
-			SendString(ERR_OUT_OF_RANGE);
+			APIString(ERR_OUT_OF_RANGE);
 			return;
 		}
 	}
@@ -196,9 +135,31 @@ void Calc(void) {
 	WriteUART('\r');
 }
 
+unsigned char transform_char(unsigned char c) {
+	if ('a' <= c && c <= 'z') {
+		return c;
+	}
+	else if ('A' <= c && c <= 'Z') {
+		return c;
+	}
+	else if (0x30 <= c && c <= 0x3F) {  //  ..ï  ..ï
+		return c + 0x70;
+	}
+	else if (0x40 <= c && c <= 0x4F) {  //  ..ï  ..ï
+		return c + 0xA0;
+	}
+	else if (c == 0x01) {
+		return 0xF1;
+	}
+	else {
+		return c;
+	}
+}
+
 void main(void) {
 	unsigned char c;
 	unsigned char i = 0;
+	unsigned char k = 0;
 
 	init_sio(S4800);
 	while (1) {
@@ -219,27 +180,10 @@ void main(void) {
 			while (1) {
 				if (rsiostat()) {
 					c = rsio();
-					wsio(c);
-					wsio('\n');
-					if (GetDIP() != 1)
-						break;
-					// new_c = Convert(c);
-					if (IsRussianBig(c)) {
-						wsio(c);
-						c = RussianToLower(c);
-					} else if (IsRussianSmall(c)) {
-						wsio(RussianToUpper(c));
-					} else {
-						continue;
+					for(k = 0; k < 3; k++) {
+						wsio(transform_char(c) + k);
 					}
-					c++;
-					for (i = 0; i < 5; i++, c++) {
-						if (c == 176)
-							c = 224;
-						if (c > 239)
-							break;
-						wsio(c);
-					}
+					wsio('\r');
 					wsio('\n');
 					if (GetDIP() != 1)
 						break;

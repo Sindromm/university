@@ -59,5 +59,5 @@ unsigned char rsio(void) {
 ----------------------------------------------------------------------------- */
 void SendString(const char *str) {
 	while (*str)
-		wsio(*str++);
+		 wsio(*str++);
 }
