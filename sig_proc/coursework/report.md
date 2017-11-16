@@ -74,7 +74,7 @@ $$c(k) = \sum\limits_{i = 0}^k A(i) \cdot B(k-i), k \in [0; N + M - 2]$$
         \tikzstyle{decision} = [draw, diamond, aspect=2]
         \tikzstyle{block} = [draw, rectangle]
         \begin{tikzpicture}[node distance=4em, auto]
-                \node[draw, ellipse] (begin) {Begin};
+                \node[draw, ellipse] (begin) {Вход};
                 \node[block, below of=begin] (init0) {$i \leftarrow 0$};
                 \node[decision, below of=init0, node distance=6em] (loop0)
                         {$i < N + M - 1$};
@@ -97,17 +97,17 @@ $$c(k) = \sum\limits_{i = 0}^k A(i) \cdot B(k-i), k \in [0; N + M - 2]$$
 
                 \draw[->] (begin) -- (init0);
                 \draw[->] (init0) -- (loop0);
-                \draw[->] (loop0) -| node{yes} (init11);
+                \draw[->] (loop0) -| node{Да} (init11);
                 \draw[->] (init11) -- (init12);
                 \draw[->] (init12) -- (loop1);
-                \draw[->] (loop1) -- node{yes} (doadd);
-                \draw[->] (doadd) -| node{yes} (add);
-                \draw[->] (doadd) -| node[near start]{no} (inc1);
+                \draw[->] (loop1) -- node{Да} (doadd);
+                \draw[->] (doadd) -| node{Да} (add);
+                \draw[->] (doadd) -| node[near start]{Нет} (inc1);
                 \draw[->] (add) -| (inc1);
-                \draw[->] (loop1) -| node[near start]{no} (inc0);
+                \draw[->] (loop1) -| node[near start]{Нет} (inc0);
                 \draw[->] (inc0) -| (loop0);
                 \draw[->] (inc1) -| (loop1);
-                \draw[->] (loop0) -| node[above left, near start]{no} (end);
+                \draw[->] (loop0) -| node[above left, near start]{Нет} (end);
         \end{tikzpicture}
         \caption{Блок-схема алгоритма}
 \end{figure}
